@@ -6,7 +6,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 })
 
 export class HeaderComponent {
-  // @Output allows this event could be listen to it fro parent component
+  // @Output allows this event could be listen to it from parent component
   @Output() featureSelected = new EventEmitter<string>();
   onSelect(feature: string) {
     this.featureSelected.emit(feature);
