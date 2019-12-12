@@ -9,6 +9,7 @@ import { Recipe } from '../../recipe.model';
 export class RecipeItemComponent implements OnInit {
   // @Input - gets the data from parent component
   @Input() recipe: Recipe;
+  @Input() index: number;
 
   ngOnInit() {
   }
