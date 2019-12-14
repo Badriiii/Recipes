@@ -5,8 +5,6 @@ import { ShoppingListService } from '../shopping-list/shopping-list.service';
 
 @Injectable()
 export class RecipeService {
-    recipeSelected = new EventEmitter<Recipe>();
-
     // making it private thus it won't be accessible outside this class
     private recipes: Recipe[] = [
         new Recipe(
