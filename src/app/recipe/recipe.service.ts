@@ -1,5 +1,5 @@
 import { Recipe } from './recipe.model';
-import { EventEmitter, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Ingredient } from '../shared/ingredient.model';
 import { ShoppingListService } from '../shopping-list/shopping-list.service';
 
@@ -38,6 +38,14 @@ export class RecipeService {
 
     addRecipes(recipe: Recipe) {
         this.recipes.push(recipe);
+    }
+   
+    updateRecipe(index: number, newRecipe: Recipe) {
+        this.recipes[index] = newRecipe;
+    }
+
+    deleteRecipe(index: number) {
+        this.recipes.splice(index, 1); // removes one element after the index
     }
 
     addIngredientsToShoppingList(ingredients: Ingredient[]) {
