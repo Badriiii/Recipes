@@ -8,24 +8,7 @@ import { Subject } from 'rxjs';
 export class RecipeService {
     recipeChanged = new Subject<Recipe[]>();
     // making it private thus it won't be accessible outside this class
-    private recipes: Recipe[] = [
-        new Recipe(
-            'A Test Recipe',
-            'This is simply a test',
-            'https://upload.wikimedia.org/wikipedia/commons/1/15/Recipe_logo.jpeg',
-            [
-                new Ingredient('Meat', 1),
-                new Ingredient('Bread', 2)
-            ]),
-        new Recipe(
-            'A Test Recipe',
-            'This is simply a test',
-            'https://upload.wikimedia.org/wikipedia/commons/1/15/Recipe_logo.jpeg',
-            [
-                new Ingredient('Meat', 1),
-                new Ingredient('Bread', 2)
-            ])
-    ];
+    private recipes: Recipe[] = [];
 
     constructor(private shoppingListService: ShoppingListService) { }
 
