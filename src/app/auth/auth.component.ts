@@ -34,9 +34,9 @@ export class AuthComponent {
                 .subscribe(resdata => {
                     console.log(resdata);
                     this.isLoading = false;
-                }, error => {
-                    console.log(error);
-                    this.error = "An Error Occured"
+                }, errorMessage => {
+                    console.log(errorMessage);
+                    this.error = errorMessage;
                     this.isLoading = false;
                 });
         }
