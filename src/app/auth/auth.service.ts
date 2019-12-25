@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 
@@ -27,19 +27,7 @@ export class AuthService {
                 password: password,
                 returnSecureToken: true
             })
-            .pipe(catchError(errorResponse => {
-                let errorMessage = "An unexpected error occurs!";
-                if (!errorResponse.error || !errorResponse.error.error) {
-                    return throwError(errorMessage);
-                }
-
-                switch (errorResponse.error.error.message) {
-                    case 'EMAIL_EXISTS':
-                        errorMessage = 'Email already exists';
-                }
-
-                return throwError(errorMessage);
-            }))
+            .pipe(catchError(this.handleError));
     }
 
     signin(email: string, password: string) {
@@ -50,25 +38,30 @@ export class AuthService {
                 password: password,
                 returnSecureToken: true
             })
-            .pipe(catchError(errorResponse => {
-                let errorMessage = "An unexpected error occurs!";
-                if (!errorResponse.error || !errorResponse.error.error) {
-                    return throwError(errorMessage);
-                }
+            .pipe(catchError(this.handleError));
+    }
 
-                switch (errorResponse.error.error.message) {
-                    case 'EMAIL_NOT_FOUND':
-                        errorMessage = 'There is no user record corresponding to this account';
-                        break;
-                    case 'INVALID_PASSWORD':
-                        errorMessage = 'The password is invalid';
-                        break;
-                    case 'USER_DISABLED':
-                        errorMessage = 'The user account has been disabled by an administrator';
-                        break;
-                }
+    private handleError(errorResponse: HttpErrorResponse) {
+        let errorMessage = "An unexpected error occurs!";
+        if (!errorResponse.error || !errorResponse.error.error) {
+            return throwError(errorMessage);
+        }
 
-                return throwError(errorMessage);
-            }))
+        switch (errorResponse.error.error.message) {
+            case 'EMAIL_EXISTS':
+                errorMessage = 'Email already exists';
+                break;
+            case 'EMAIL_NOT_FOUND':
+                errorMessage = 'There is no user record corresponding to this account';
+                break;
+            case 'INVALID_PASSWORD':
+                errorMessage = 'The password is invalid';
+                break;
+            case 'USER_DISABLED':
+                errorMessage = 'The user account has been disabled by an administrator';
+                break;
+        }
+
+        return throwError(errorMessage);
     }
 }
