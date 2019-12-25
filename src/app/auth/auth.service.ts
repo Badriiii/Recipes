@@ -4,7 +4,7 @@ import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 
 // Response payload object
-interface AuthResponseData {
+export interface AuthResponseData {
     idToken: string,
     email: string,
     refreshToken: string,
