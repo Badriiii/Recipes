@@ -57,6 +57,31 @@ export class AuthService {
                 )));
     }
 
+    autoLogin() {
+        // Get the userData from the browser storage
+        const userData: {
+            email: string,
+            id: string,
+            _token: string,
+            _tokenExpireDate: string
+        } = JSON.parse(localStorage.getItem('userData'));
+
+        if (!userData) {
+            return;
+        }
+
+        const authUser = new User(
+            userData.email,
+            userData.id,
+            userData._token,
+            new Date(userData._tokenExpireDate)
+        );
+
+        if (authUser.token) {
+            this.user.next(authUser);
+        }
+    }
+
     logout() {
         this.user.next(null);
         this.router.navigate(['/auth']);
@@ -72,6 +97,9 @@ export class AuthService {
         const user = new User(email, userId, token, expiryDate);;
 
         this.user.next(user);
+
+        // Stores the data in browser storage
+        localStorage.setItem('userData', JSON.stringify(user));
     }
 
     private handleError(errorResponse: HttpErrorResponse) {
