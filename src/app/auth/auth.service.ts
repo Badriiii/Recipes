@@ -18,6 +18,7 @@ export interface AuthResponseData {
 @Injectable({ providedIn: 'root' })
 export class AuthService {
     user = new BehaviorSubject<User>(null);
+    private tokenExpirationTimer: any;
 
     constructor(private http: HttpClient,
         private router: Router) {
@@ -63,7 +64,7 @@ export class AuthService {
             email: string,
             id: string,
             _token: string,
-            _tokenExpireDate: string
+            _tokenExpiryDate: string
         } = JSON.parse(localStorage.getItem('userData'));
 
         if (!userData) {
@@ -74,17 +75,38 @@ export class AuthService {
             userData.email,
             userData.id,
             userData._token,
-            new Date(userData._tokenExpireDate)
+            new Date(userData._tokenExpiryDate)
         );
 
         if (authUser.token) {
             this.user.next(authUser);
+
+            // Update the autologout expiration time whenever page reloads occur
+            const expirationTime = new Date(userData._tokenExpiryDate).getTime() -
+                new Date().getTime();
+            this.autoLogout(expirationTime);
         }
     }
 
     logout() {
         this.user.next(null);
         this.router.navigate(['/auth']);
+
+        localStorage.removeItem('userData');
+
+        // when user manually logout, clear their tokenExpiry timer
+        if (this.tokenExpirationTimer) {
+            clearTimeout(this.tokenExpirationTimer);
+        }
+
+        this.tokenExpirationTimer = null;
+    }
+
+    // Auto logout based on the expiration time provided in milli second
+    autoLogout(expirationDuration: number) {
+        this.tokenExpirationTimer = setTimeout(() => {
+            this.logout();
+        }, expirationDuration);
     }
 
     private handleAuth(email: string, userId: string, token: string, expiresIn: number) {
@@ -97,6 +119,9 @@ export class AuthService {
         const user = new User(email, userId, token, expiryDate);;
 
         this.user.next(user);
+
+        // Set the expiration time whenever the handle auth method is called
+        this.autoLogout(expiresIn * 1000);
 
         // Stores the data in browser storage
         localStorage.setItem('userData', JSON.stringify(user));
