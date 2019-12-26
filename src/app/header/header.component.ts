@@ -29,6 +29,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.dataService.fetchRecipes().subscribe();
   }
 
+  onLogout() {
+    this.authService.logout();
+  }
+
   ngOnDestroy() {
     this.userSub.unsubscribe();
   }
