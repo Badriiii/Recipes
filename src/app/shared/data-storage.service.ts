@@ -20,30 +20,25 @@ export class DataStorageService {
     }
 
     fetchRecipes() {
-        return this.authService.user.pipe(
-            take(1), // subscribe to one user and then unsubscribe
-            exhaustMap(user => {  // exhaust map will wait for dirst subscribtion to complete and then will subscribes its own
-                return this.http.get<Recipe[]>(
-                    'https://ng-recipe-book-84a51.firebaseio.com/recipes.json',
-                    {
-                        params: new HttpParams().set('auth', user.token)
-                    }
-                )
-            }),
-            map(recipes => { // map allows us to transform the data by adding the pipe
-                return recipes.map(recipe => {
-                    // checking if the recipe has ingredient
-                    // if not adding empty array instead of undefined using spread operator
-                    return {
-                        ...recipe,
-                        ingredients: recipe.ingredients ? recipe.ingredients : []
-                    }
+        return this.http.get<Recipe[]>(
+            'https://ng-recipe-book-84a51.firebaseio.com/recipes.json'
+        )
+            .pipe(
+                map(recipes => { // map allows us to transform the data by adding the pipe
+                    return recipes.map(recipe => {
+                        // checking if the recipe has ingredient
+                        // if not adding empty array instead of undefined using spread operator
+                        return {
+                            ...recipe,
+                            ingredients: recipe.ingredients ? recipe.ingredients : []
+                        }
+                    })
+                }),
+                // tap allows us to do some changes without altering the data 
+                tap(recipes => {
+                    this.recipeService.setRecipes(recipes)
                 })
-            }),
-            // tap allows us to do some changes without altering the data 
-            tap(recipes => {
-                this.recipeService.setRecipes(recipes)
-            }))
+            )
 
     }
 }
