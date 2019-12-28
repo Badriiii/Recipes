@@ -57,6 +57,10 @@ import { PlaceHolderDirective } from './shared/placeholder/placeholder.directive
       multi: true // when multiple interceptors are used in the module, we need to set true
     }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [
+    // set of components that will be created dynamically
+    AlertComponent
+  ]
 })
 export class AppModule { }
