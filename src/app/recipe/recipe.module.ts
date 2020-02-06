@@ -24,18 +24,7 @@ import { RecipeRoutingModule } from "./recipe-routing.module";
         CommonModule,
         ReactiveFormsModule,
         RecipeRoutingModule
-    ],
-    // exports allows us to use the below components anywhere 
-    // when the Recipe Module is imported
-    exports: [
-        RecipeComponent,
-        RecipeListComponent,
-        RecipeDetailComponent,
-        RecipeItemComponent,
-        RecipeStartComponent,
-        RecipeEditComponent
     ]
-
 })
 export class RecipeModule {
 
