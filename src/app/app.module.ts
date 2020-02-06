@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './header/header.component';import { AppRoutingModule } from './app.routing.module';
+import { HeaderComponent } from './header/header.component'; import { AppRoutingModule } from './app.routing.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 import { RecipeService } from './recipe/recipe.service';
 import { ShoppingListService } from './shopping-list/shopping-list.service';
@@ -12,6 +12,7 @@ import { AuthInterceptorService } from './auth/auth-interceptor.service';
 import { RecipeModule } from './recipe/recipe.module';
 import { ShoppingListModule } from './shopping-list/shopping-list.module';
 import { SharedModule } from './shared/shared.module';
+import { CoreModule } from './core.module';
 
 @NgModule({
   declarations: [
@@ -27,16 +28,8 @@ import { SharedModule } from './shared/shared.module';
     AppRoutingModule,
     RecipeModule,
     ShoppingListModule,
-    SharedModule
-  ],
-  providers: [
-    RecipeService,
-    ShoppingListService,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptorService,
-      multi: true // when multiple interceptors are used in the module, we need to set true
-    }
+    SharedModule,
+    CoreModule
   ],
   bootstrap: [AppComponent]
 })
