@@ -6,6 +6,8 @@ import { RecipeItemComponent } from "./recipe-list/recipe-item/recipe-item.compo
 import { RecipeStartComponent } from "./recipe-start/recipe-start.component";
 import { RecipeEditComponent } from "./recipe-edit/recipe-edit.component";
 import { AppRoutingModule } from "../app.routing.module";
+import { CommonModule } from "@angular/common";
+import { ReactiveFormsModule } from "@angular/forms";
 
 @NgModule({
     declarations:[
@@ -15,6 +17,11 @@ import { AppRoutingModule } from "../app.routing.module";
         RecipeItemComponent,
         RecipeStartComponent,
         RecipeEditComponent
+    ],
+    imports: [
+        AppRoutingModule,
+        CommonModule,
+        ReactiveFormsModule
     ],
     // exports allows us to use the below components anywhere 
     // when the Recipe Module is imported
