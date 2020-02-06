@@ -3,28 +3,21 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './header/header.component';import { DropdownDirective } from './shared/dropdown.directive';
-import { AppRoutingModule } from './app.routing.module';
+import { HeaderComponent } from './header/header.component';import { AppRoutingModule } from './app.routing.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 import { RecipeService } from './recipe/recipe.service';
 import { ShoppingListService } from './shopping-list/shopping-list.service';
 import { AuthComponent } from './auth/auth.component';
-import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
 import { AuthInterceptorService } from './auth/auth-interceptor.service';
-import { AlertComponent } from './shared/alert/alert.component';
-import { PlaceHolderDirective } from './shared/placeholder/placeholder.directive';
 import { RecipeModule } from './recipe/recipe.module';
 import { ShoppingListModule } from './shopping-list/shopping-list.module';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    DropdownDirective,
     AuthComponent,
-    LoadingSpinnerComponent,
-    AlertComponent,
-    PlaceHolderDirective
   ],
   imports: [
     BrowserModule,
@@ -33,7 +26,8 @@ import { ShoppingListModule } from './shopping-list/shopping-list.module';
     HttpClientModule,
     AppRoutingModule,
     RecipeModule,
-    ShoppingListModule
+    ShoppingListModule,
+    SharedModule
   ],
   providers: [
     RecipeService,
@@ -44,10 +38,6 @@ import { ShoppingListModule } from './shopping-list/shopping-list.module';
       multi: true // when multiple interceptors are used in the module, we need to set true
     }
   ],
-  bootstrap: [AppComponent],
-  entryComponents: [
-    // set of components that will be created dynamically
-    AlertComponent
-  ]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
