@@ -13,6 +13,10 @@ const appRoutes: Routes = [
         // loadChildren: './your-module-path/module-name.module#ModuleName'
         // Will import the recipe module only when the recipe URL was called
         loadChildren: './recipe/recipe.module#RecipeModule'
+    },
+    {
+        path: 'shopping-list',
+        loadChildren: './shopping-list/shopping-list.module#ShoppingListModule'
     }
 ]
 
